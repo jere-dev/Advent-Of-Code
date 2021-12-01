@@ -1,2 +1,2 @@
 # Advent-of-code
-Advent Of Code
+This is my first Advent Of Code⛄
