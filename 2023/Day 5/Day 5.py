@@ -11,6 +11,18 @@ def mapNumEff(l, num):
         return num
     return - 1
 
+def mappedNum(num, d):
+    nextnum = num
+    for k in d:
+        if k == "seeds":
+            continue
+        for ll in d[k]:
+            idk = mapNumEff(ll, nextnum)
+            if idk != -1:
+                nextnum = idk
+                break
+    return nextnum
+
 for line in lines:
     if "seeds: " in line:
         curmap = "seeds"
@@ -49,40 +61,23 @@ for k in diction:
         continue
     diction[k] = [diction[k][i * 3:(i + 1) * 3] for i in range((len(diction[k]) + 3 - 1) // 3 )]
 
-l = []
+minn = None
 for num in diction["seeds"]:
-    nextnum = num
-    for k in diction:
-        if k == "seeds":
-            continue
-        for ll in diction[k]:
-            idk = mapNumEff(ll, nextnum)
-            if idk != -1:
-                nextnum = idk
-                break
-    l.append(nextnum)
+    nnnnn = mappedNum(num, diction)
+    if minn == None:
+        minn = nnnnn
+    elif minn > nnnnn:
+        minn = nnnnn
 
-print("Part 1: ", min(l))
+print("Part 1: ", minn)
 
-seeds = []
-for i in range(len(diction["seeds"])//2):
-    for i in range(diction["seeds"][i], diction["seeds"][i]+diction["seeds"][i+1]):
-        seeds.append(i)
-diction["seeds"] = seeds
+minn = None
+for i in range(0, len(diction["seeds"]), 2):
+    for j in range(diction["seeds"][i], diction["seeds"][i]+diction["seeds"][i+1]):
+        nnnnn = mappedNum(j, diction)
+        if minn == None:
+            minn = nnnnn
+        elif minn > nnnnn:
+            minn = nnnnn
 
-print(diction["seeds"])
-
-l = []
-for num in diction["seeds"]:
-    nextnum = num
-    for k in diction:
-        if k == "seeds":
-            continue
-        for ll in diction[k]:
-            idk = mapNumEff(ll, nextnum)
-            if idk != -1:
-                nextnum = idk
-                break
-    l.append(nextnum)
-
-print("Part 2: ", min(l))
+print("Part 2: ", minn)
